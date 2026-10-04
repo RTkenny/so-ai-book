@@ -46,3 +46,4 @@ pre code{font:inherit;white-space:pre}
 @media(max-width:700px){.lab-page>h1{font-size:28px}.lab-visual{padding:8px;margin:24px 0}.lab-visual figcaption{font-size:12px;padding:0 3px}.lab-intro{font-size:15px}.digest-intro{font-size:17px}.key-points dt{margin-top:16px}.chapter-digest{font-size:16px}}
 @media(max-width:700px){.desktop-language{display:none}.mobile-header{padding:10px 16px;min-height:58px}.mobile-header .language-switch button{padding:3px 8px;border:0;font-size:12px;background:transparent}.mobile-header .language-switch button[aria-pressed="true"]{background:#fff}.mobile-controls{gap:8px}.mobile-header #menu{font-size:12px;padding:5px 8px}}
 @media print{.language-switch,.language-note{display:none!important}}
+.translation-note{font:13px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;color:#738399;background:#f6f8fb;border-left:2px solid #cedaeb;padding:10px 14px;margin:0 0 26px}
