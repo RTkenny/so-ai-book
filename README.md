@@ -1,8 +1,12 @@
 # 仿真优化与人工智能 · 网页版
 
-[在线阅读](https://rtkenny.github.io/so-ai-book/)
+[中文阅读](https://rtkenny.github.io/so-ai-book/?lang=zh) · [Read in English](https://rtkenny.github.io/so-ai-book/?lang=en)
 
-本仓库保存《Simulation Optimization and Artificial Intelligence》的静态网页版，包含 6 章中文导读、完整原文、参考文献、4 个 Hands-on Lab、实验配图和可下载的 Python 代码。
+本仓库保存《Simulation Optimization and Artificial Intelligence》的静态网页版，包含 6 章中英双语导读、完整英文原文、参考文献、4 个双语 Hands-on Lab、实验配图和可下载的 Python 代码。
+
+桌面侧栏和手机顶栏可切换中文 / English。导航、导读、实验说明、图注和代码复制提示随语言切换，并记住阅读偏好。`?lang=zh` 和 `?lang=en` 可用于分享指定语言的链接。完整书稿、参考文献及原书 PDF 保留英文。
+
+Use the language buttons in the sidebar or mobile header to switch between Chinese and English. Chapter guides, lab instructions, captions, and interface text are bilingual. The full manuscript, bibliography, and original PDF remain in English.
 
 ## 浏览
 

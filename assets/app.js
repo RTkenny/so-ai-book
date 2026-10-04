@@ -3,6 +3,53 @@ const sidebar = document.querySelector('#sidebar');
 const menu = document.querySelector('#menu');
 let navigation = 0;
 let mathQueue = Promise.resolve();
+let language = 'zh';
+const messages = {
+  zh: {copy: '复制', copied: '已复制', copyLabel: '复制代码', manualCopy: '请按 Cmd/Ctrl+C'},
+  en: {copy: 'Copy', copied: 'Copied', copyLabel: 'Copy code', manualCopy: 'Press Cmd/Ctrl+C'},
+};
+
+function setLanguage(next, announce = false) {
+  language = next === 'en' ? 'en' : 'zh';
+  document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-zh][data-en]').forEach(element => {
+    element.textContent = element.getAttribute('data-' + language);
+    element.lang = document.documentElement.lang;
+  });
+  for (const attribute of ['aria-label', 'alt', 'src', 'href']) {
+    document.querySelectorAll('[data-' + attribute + '-zh][data-' + attribute + '-en]').forEach(element => {
+      element.setAttribute(attribute, element.getAttribute('data-' + attribute + '-' + language));
+    });
+  }
+  document.querySelectorAll('.language-switch button[data-language]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.language === language));
+  });
+  document.querySelectorAll('[data-language-view]').forEach(view => {
+    view.hidden = view.dataset.languageView !== language;
+  });
+  document.querySelectorAll('.code-wrap>button').forEach(button => {
+    button.textContent = messages[language].copy;
+    button.setAttribute('aria-label', messages[language].copyLabel);
+  });
+  const selected = pages.find(page => !page.hidden);
+  if (selected) document.title = selected.querySelector('h1').textContent.trim() + ' · SO & AI';
+  try { localStorage.setItem('so-ai-language', language); } catch { /* Reading also works without storage. */ }
+  if (announce) {
+    const url = new URL(location.href);
+    url.searchParams.set('lang', language);
+    try { history.replaceState(null, '', url); } catch { /* Some file viewers restrict history. */ }
+    document.querySelector('#language-status').textContent = language === 'zh' ? '已切换为中文' : 'Switched to English';
+  }
+}
+
+let initialLanguage = new URLSearchParams(location.search).get('lang');
+if (!['zh', 'en'].includes(initialLanguage)) {
+  try { initialLanguage = localStorage.getItem('so-ai-language'); } catch { /* Use Chinese by default. */ }
+}
+setLanguage(initialLanguage);
+document.querySelectorAll('.language-switch button[data-language]').forEach(button => {
+  button.addEventListener('click', () => setLanguage(button.dataset.language, true));
+});
 
 async function navigate() {
   const current = ++navigation;
@@ -94,21 +141,21 @@ document.querySelectorAll('.book-content pre').forEach(pre => {
   wrapper.append(pre);
   const copy = document.createElement('button');
   copy.type = 'button';
-  copy.textContent = '复制';
-  copy.setAttribute('aria-label', '复制代码');
+  copy.textContent = messages[language].copy;
+  copy.setAttribute('aria-label', messages[language].copyLabel);
   copy.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText((pre.querySelector('code') || pre).textContent);
-      copy.textContent = '已复制';
+      copy.textContent = messages[language].copied;
     } catch {
       const range = document.createRange();
       range.selectNodeContents(pre);
       const selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
-      copy.textContent = '请按 Cmd/Ctrl+C';
+      copy.textContent = messages[language].manualCopy;
     }
-    setTimeout(() => { copy.textContent = '复制'; }, 2000);
+    setTimeout(() => { copy.textContent = messages[language].copy; }, 2000);
   });
   wrapper.append(copy);
 });
